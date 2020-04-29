@@ -10,5 +10,10 @@
         ],
         "doom" => [
             "title" => "DOOM",
+            "description" => "mother fucking DOOL",
+            "img" => "doom.jpg",
+            "img-alt" => "représentation du trone de fer",
+            "span-text" => "Action",
+            "span-label" => "danger",
         ]
     ];

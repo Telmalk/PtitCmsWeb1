@@ -19,7 +19,7 @@ function getHeader(array $data) {
                             foreach ($data as $slug => $film) {
                                 ?>
                                     <li class="nav-item active">
-                                        <a class="nav-link" href="<?=$slug?>"><?=$film['title']?></a>
+                                        <a class="nav-link" href="<?=APP_URL?>?<?=APP_PAGE_PARAM?>=<?=$slug?>"><?=$film['title']?></a>
                                     </li>
                                 <?php
                             }
