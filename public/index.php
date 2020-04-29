@@ -8,7 +8,12 @@
 
     $currentPage = $_GET[APP_PAGE_PARAM] ?? APP_DEFAULT_PAGE;
     var_dump($currentPage);
-    $dataPage = $data[$currentPage];
+    http_response_code();
+    $dataPage = getData($data, $currentPage);
+    if (is_null($dataPage)) {
+        http_response_code(404);
+        $dataPage = getData($data, APP_DEFAULT_PAGE);
+    }
     getHeader($data);
     displayPage($dataPage);
     footer();

@@ -44,6 +44,10 @@ function displayPage(array $dataPage) {
 <?php
 }
 
+function getData(array $data, string $currentPage): ?array {
+    return $data[$currentPage] ?? null;
+}
+
 function footer() {
     ?>
 </body>
