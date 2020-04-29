@@ -6,6 +6,9 @@
             "img" => "got.jpg",
             "img-alt" => "représentation du trone de fer",
             "span-text" => "palpitant",
-            "span-label" => "danger",
+            "span-label" => "primary",
+        ],
+        "doom" => [
+            "title" => "DOOM",
         ]
     ];

@@ -5,6 +5,6 @@
 
     $dataPage = $data['got'];
 
-    getHeader();
+    getHeader($data);
     displayPage($dataPage);
     footer();
