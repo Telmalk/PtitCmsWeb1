@@ -1,6 +1,6 @@
 <?php
 
-function getHeader(array $data) {
+function getHeader(array $data, string $currentPage) {
     ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -17,11 +17,7 @@ function getHeader(array $data) {
                     <ul class="navbar-nav mr-auto">
                         <?php
                             foreach ($data as $slug => $film) {
-                                ?>
-                                    <li class="nav-item active">
-                                        <a class="nav-link" href="<?=APP_URL?>?<?=APP_PAGE_PARAM?>=<?=$slug?>"><?=$film['title']?></a>
-                                    </li>
-                                <?php
+                                getNavLink($slug, $film, $currentPage);
                             }
                         ?>
                     </ul>
@@ -29,6 +25,18 @@ function getHeader(array $data) {
     </nav>
     <?php
     }
+
+function getNavLink(string $slug, array $film,string $currentPage) {
+        $classNav = "";
+        if ($slug === $currentPage) {
+            $classNav = "class=active";
+        }
+    ?>
+    <li <?=$classNav?>>
+        <a class="nav-link" href="<?=APP_URL?>?<?=APP_PAGE_PARAM?>=<?=$slug?>"><?=$film['title']?></a>
+    </li>
+    <?php
+}
 
 function displayPage(array $dataPage) {
     ?>

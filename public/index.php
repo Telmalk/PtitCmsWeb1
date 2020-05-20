@@ -13,7 +13,8 @@
     if (is_null($dataPage)) {
         http_response_code(404);
         $dataPage = getData($data, APP_DEFAULT_PAGE);
+        $currentPage = APP_DEFAULT_PAGE;
     }
-    getHeader($data);
+    getHeader($data, $currentPage);
     displayPage($dataPage);
     footer();
