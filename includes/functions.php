@@ -1,6 +1,7 @@
 <?php
 
-function getHeader(array $data, string $currentPage) {
+function getHeader(PDO $pdo, string $currentPage) {
+        $data = getHeaderData($pdo);
     ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -16,8 +17,8 @@ function getHeader(array $data, string $currentPage) {
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav mr-auto">
                         <?php
-                            foreach ($data as $slug => $film) {
-                                getNavLink($slug, $film, $currentPage);
+                            foreach ($data  as $film) {
+                                getNavLink($film, $currentPage);
                             }
                         ?>
                     </ul>
@@ -26,16 +27,35 @@ function getHeader(array $data, string $currentPage) {
     <?php
     }
 
-function getNavLink(string $slug, array $film,string $currentPage) {
+function getNavLink(array $film,string $currentPage) {
         $classNav = "";
-        if ($slug === $currentPage) {
+        if ($film['slug'] === $currentPage) {
             $classNav = "class=active";
         }
     ?>
     <li <?=$classNav?>>
-        <a class="nav-link" href="<?=APP_URL?>?<?=APP_PAGE_PARAM?>=<?=$slug?>"><?=$film['title']?></a>
+        <a class="nav-link" href="<?=APP_URL?>?<?=APP_PAGE_PARAM?>=<?=$film['slug']?>"><?=$film['title']?></a>
     </li>
     <?php
+}
+
+function getHeaderData(PDO $pdo): ?array{
+    $sql = "
+        SELECT
+            title,
+            slug
+        FROM
+            page;
+    ";
+
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute();
+    errorHandler($stmt);
+    $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    if (!$data) {
+        return null;
+    }
+    return $data;
 }
 
 function displayPage(array $dataPage) {
@@ -52,10 +72,18 @@ function displayPage(array $dataPage) {
 <?php
 }
 
+
+
 function getData(PDO $pdo, string $currentPage): ?array {
     $sql = "
         SELECT
-         *
+            title,
+            description,
+            `span-text`,
+            `span-label`,
+            img,
+            `img-alt`,
+            slug 
         FROM
             page
         WHERE
@@ -82,6 +110,6 @@ function footer() {
 
 function errorHandler(PDOStatement $stmt) {
     if ($stmt->errorCode() !== '00000') {
-        throw new PDOException($stmt->errorInfo());
+        throw new PDOException($stmt->errorInfo()[2]);
     }
 }

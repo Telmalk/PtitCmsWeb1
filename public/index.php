@@ -16,7 +16,7 @@ try {
         $dataPage = getData($pdo, APP_DEFAULT_PAGE);
         $currentPage = APP_DEFAULT_PAGE;
     }
-    getHeader($data, $currentPage);
+    getHeader($pdo, $currentPage);
     displayPage($dataPage);
     footer();
 } catch (PDOException $e) {
