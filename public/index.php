@@ -5,14 +5,15 @@
     define("APP_DEFAULT_PAGE", "got");
     require_once APP_ROOT_DIR . "includes/functions.php";
     require_once APP_ROOT_DIR . "includes/data.php";
+    require_once APP_ROOT_DIR . "/includes/connet.php";
 
     $currentPage = $_GET[APP_PAGE_PARAM] ?? APP_DEFAULT_PAGE;
     var_dump($currentPage);
     http_response_code();
-    $dataPage = getData($data, $currentPage);
+    $dataPage = getData($pdo, $currentPage);
     if (is_null($dataPage)) {
         http_response_code(404);
-        $dataPage = getData($data, APP_DEFAULT_PAGE);
+        $dataPage = getData($pdo, APP_DEFAULT_PAGE);
         $currentPage = APP_DEFAULT_PAGE;
     }
     getHeader($data, $currentPage);
