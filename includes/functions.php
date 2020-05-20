@@ -53,7 +53,24 @@ function displayPage(array $dataPage) {
 }
 
 function getData(PDO $pdo, string $currentPage): ?array {
-    return $data[$currentPage] ?? null;
+    $sql = "
+        SELECT
+         *
+        FROM
+            page
+        WHERE
+            slug = :slug;
+    ";
+
+    $stmt = $pdo->prepare($sql);
+    $stmt->bindValue(":slug", $currentPage);
+    $stmt->execute();
+    errorHandler($stmt);
+    $data = $stmt->fetch(PDO::FETCH_ASSOC);
+    if (!$data) {
+        return null;
+    }
+    return $data;
 }
 
 function footer() {
@@ -61,4 +78,10 @@ function footer() {
 </body>
 </html>
 <?php
+}
+
+function errorHandler(PDOStatement $stmt) {
+    if ($stmt->errorCode() !== '00000') {
+        throw new PDOException($stmt->errorInfo());
+    }
 }

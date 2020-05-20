@@ -7,8 +7,8 @@
     require_once APP_ROOT_DIR . "includes/data.php";
     require_once APP_ROOT_DIR . "/includes/connet.php";
 
+try {
     $currentPage = $_GET[APP_PAGE_PARAM] ?? APP_DEFAULT_PAGE;
-    var_dump($currentPage);
     http_response_code();
     $dataPage = getData($pdo, $currentPage);
     if (is_null($dataPage)) {
@@ -19,3 +19,8 @@
     getHeader($data, $currentPage);
     displayPage($dataPage);
     footer();
+} catch (PDOException $e) {
+    die($e->getMessage());
+} catch (Exception $e) {
+    die($e->getMessage());
+}
